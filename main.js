@@ -22,22 +22,18 @@ function buscadorDePerfumes() {
         if (resultados.length === 0) {
             alert(`La marca de perfume que busca no esta disponible`)
         } else {
-            let fraganciasBuscadas=[]
-            for(let i=0;i<fraganciasBuscadas.length; i++){
-                fraganciasBuscadas.push() //VOY POR ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AYUDA GPTTTTTTTTTT
-            }
-            alert(`La marca buscada tiene las siguientes fragancias: ${fragancia} `)
+            let fragancias = resultados.map(p => p.fragancia).join(",\n")
+            alert(`La marca ${marcaABuscar} tiene las fragancias:\n${fragancias}`)
         }
-
-
     } else if (buscador === 2) {
         let fraganciaABuscar = prompt("Ingrese la fragancia a buscar: ")
-        let index2 = perfumes.indexOf(fraganciaABuscar)
+        let fragFilter = perfumes.filter(perfume => perfume.fragancia === fraganciaABuscar)
 
-        if (index2 == -1) {
+        if (fragFilter.length === 0) {
             alert(`La fragancia de perfume que busca no esta disponible`)
         } else {
-            alert(`La fragancia buscada es de ${perfumes[index2].marca}`)
+            let marcas = fragFilter.map(p => p.marca).join(", ")
+            alert(`La fragancia ${fraganciaABuscar} es de la marca: ${marcas} y esta disponible!`)
         }
 
     } else {
@@ -45,4 +41,63 @@ function buscadorDePerfumes() {
     }
 }
 
-buscadorDePerfumes()
+function agregarPerfume() {
+    let nuevaMarca = prompt("Ingrese la marca del perfume a agregar: ")
+    let nuevaFragancia = prompt("Ingrese la fragancia a agregar: ")
+    perfumes.push({ marca: nuevaMarca, fragancia: nuevaFragancia })
+}
+
+function quitarUltimoPerfume() {
+    let borraPerfumeUltimo = confirm("Desea eliminar el ultimo perfume?")
+    if (borraPerfumeUltimo) {
+        perfumes.pop()
+    } else {
+        return
+    }
+}
+
+function verPerfumes() {
+    let lista = "Los perfumes disponibles son:\n\n"
+    for (let i = 0; i < perfumes.length; i++) {
+        lista += `Marca: ${perfumes[i].marca}\nFragancia: ${perfumes[i].fragancia}\n`
+    }
+    alert(lista)
+}
+
+function menu() {
+    let flag = true
+
+    while (flag) {
+        let option = Number(prompt("Ingrese la opcion deseada: \n1. Ver Perfumes \n2. Buscar Perfume \n3. Agregar Perfume \n4. Quitar el ultimo perfume \n5. Salir del menu"))
+
+        switch (option) {
+            case 1:
+                verPerfumes()
+                break
+            case 2:
+                buscadorDePerfumes()
+                break
+            case 3:
+                agregarPerfume()
+                break
+            case 4:
+                quitarUltimoPerfume()
+                break
+            case 5:
+                let confirmacion = confirm("Seguro desea salir del menu?")
+                if (confirmacion) {
+                    flag = false
+                } else {
+                    break
+                }
+                break
+            default:
+                alert("Opcion incorrecta")
+                break
+        }
+    }
+}
+
+menu()
+
+
